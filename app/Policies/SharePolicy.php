@@ -45,7 +45,7 @@ class SharePolicy
      */
     public function delete(User $user, Share $share): bool
     {
-        //
+        return $this->update($user, $share);
     }
 
     /**

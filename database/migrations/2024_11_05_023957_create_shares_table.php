@@ -17,6 +17,18 @@ return new class extends Migration
             $table->string('message');
             $table->timestamps();
         });
+
+        Schema::create('services', function (Blueprint $table) {
+            $table->id('');
+            $table->string('name'); // Service name
+            $table->text('description')->nullable(); // Service description
+            $table->string('image')->nullable(); // Path to the uploaded image
+            $table->string('duration'); // Duration of the service
+            $table->decimal('cost', 10, 2); // Cost of the service
+            $table->string('location'); // Location of the service
+            $table->string('category'); // Category of the service
+            $table->timestamps(); // Created_at and Updated_at
+        });
     }
 
     /**
@@ -25,5 +37,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('shares');
+
+        Schema::dropIfExists('services');
     }
 };

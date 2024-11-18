@@ -78,8 +78,13 @@ class ShareController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Share $share)
+
+    public function destroy(Share $share): RedirectResponse
     {
-        //
+        Gate::authorize('delete', $share);
+
+        $share->delete();
+
+        return redirect(route('share.index'));
     }
 }

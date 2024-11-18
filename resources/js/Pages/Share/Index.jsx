@@ -6,7 +6,7 @@ import {Head, useForm } from "@inertiajs/react";
 import Share from '@/Components/Share';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-export default function Index({auth, shares}) {
+export default function Index({ auth, shares }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         message: '',
     });
@@ -32,14 +32,15 @@ export default function Index({auth, shares}) {
                         onChange={e => setData('message', e.target.value)}
                     ></textarea>
                     <InputError message={errors.message} className="mt-2" />
-                    <PrimaryButton className="mt-4" disabled={processing}>Share mo lang</PrimaryButton>
+                    <PrimaryButton className="mt-4 " disabled={processing}>Share mo lang</PrimaryButton>
                 </form>
             </div>
-            <div className="mt-6 bg-white shadow-sm rounded-lg divide-y">
+            <div className="mt-6 bg-white shadow-sm rounded-lg divide-y max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 {shares.map(share =>
                     <Share key={share.id} share={share}/>
                 )}
             </div>
+
         </AuthenticatedLayout>
     );
 };

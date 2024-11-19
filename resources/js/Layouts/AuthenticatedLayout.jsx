@@ -1,39 +1,94 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faHome,
+    faChartLine,
+    faUserInjured,
+    faCalendarCheck,
+    faCalendarAlt,
+    faCogs,
+    faCircleQuestion,
+    faHandSparkles, // New icon for Services (hand with gear alternative)
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
-
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    // Access current route
+    const { current_route } = usePage().props;
+    console.log("Current route:", current_route);
+
+    // Define breadcrumb structure dynamically based on current route
+    const breadcrumbs = [
+        ...(current_route !== "dashboard" // Avoid "Home" on the dashboard
+            ? [{ name: "Home", href: route("dashboard") }]
+            : []),
+        ...(current_route === "patients"
+            ? [{ name: "Patients", href: route("patients") }]
+            : []),
+        ...(current_route === "appointments"
+            ? [{ name: "Appointments", href: route("appointments") }]
+            : []),
+        ...(current_route === "calendar"
+            ? [{ name: "Calendar", href: route("calendar") }]
+            : []),
+    ];
+
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 flex flex-col">
+            {/* Header */}
             <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
-                        <div className="flex">
-                            <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
-                                    Dashboard
-                                </NavLink>
+                    <div className="flex h-16 items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <img
+                                src="/assets/logo.png"
+                                alt="Logo"
+                                className="h-14 w-auto"
+                            />
+                            <span className="text-violet-600 font-bold text-2xl">
+                                ECSmile
+                            </span>{" "}
+                            <NavLink
+                                href={route("dashboard")}
+                                active={route().current("dashboard")}
+                                className="ml-6 text-sm font-medium text-gray-700 hover:text-gray-900"
+                            >
+                                Dashboard
+                            </NavLink>
+                            <div className="flex items-center space-x-2">
+                                {breadcrumbs.map((breadcrumb, index) => (
+                                    <span
+                                        key={breadcrumb.name}
+                                        className={`text-sm font-medium ${
+                                            current_route === breadcrumb.href
+                                                ? "text-violet-800 font-bold"
+                                                : "text-gray-700 hover:text-gray-900"
+                                        }`}
+                                    >
+                                        <Link
+                                            href={breadcrumb.href}
+                                            className="hover:text-violet-800"
+                                        >
+                                            {">"}
+                                            {breadcrumb.name }
+                                        </Link>
+                                        {index < breadcrumbs.length - 1 && (
+                                            <span className="mx-2">/</span>
+                                        )}
+                                    </span>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                        <div className="hidden sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -52,7 +107,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 >
                                                     <path
                                                         fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a 1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z"
                                                         clipRule="evenodd"
                                                     />
                                                 </svg>
@@ -62,12 +117,12 @@ export default function AuthenticatedLayout({ header, children }) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link
-                                            href={route('profile.edit')}
+                                            href={route("profile.edit")}
                                         >
                                             Profile
                                         </Dropdown.Link>
                                         <Dropdown.Link
-                                            href={route('logout')}
+                                            href={route("logout")}
                                             method="post"
                                             as="button"
                                         >
@@ -77,100 +132,107 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </Dropdown>
                             </div>
                         </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
                     </div>
                 </div>
             </nav>
 
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
-                    </div>
-                </header>
-            )}
+            {/* Sidebar and Content */}
+            <div className="flex flex-1">
+                <aside className="w-64 bg-purple-200 text-black flex flex-col h-280">
+                    <nav className="flex-1 p-6 space-y-4">
+                        {[
+                            { href: "dashboard", icon: faHome, label: "Home" },
+                            {
+                                href: "analytics",
+                                icon: faChartLine,
+                                label: "Analytics",
+                            },
+                            {
+                                href: "patients",
+                                icon: faUserInjured,
+                                label: "Patients",
+                            },
+                            {
+                                href: "appointments",
+                                icon: faCalendarCheck,
+                                label: "Appointments",
+                            },
+                            {
+                                href: "calendar",
+                                icon: faCalendarAlt,
+                                label: "Calendar",
+                            },
+                            {
+                                href: "services",
+                                icon: faHandSparkles,
+                                label: "Services",
+                            }, // Updated Services link icon
+                        ].map((link, index) => (
+                            <a
+                                key={index}
+                                href={link.href}
+                                className={`flex items-center p-3 rounded-xl border-l-2 border-gray-300 hover:border-lavender-500 hover:bg-purple-500 hover:text-white transition-all duration-300 ease-in-out ${
+                                    current_route === link.href
+                                        ? "bg-purple-500 text-white border-lavender-500"
+                                        : ""
+                                }`}
+                            >
+                                <FontAwesomeIcon
+                                    icon={link.icon}
+                                    className="mr-3 text-xl"
+                                />
+                                <span className="text-base">{link.label}</span>
+                            </a>
+                        ))}
 
-            <main>{children}</main>
+                        <div className="mt-8"></div>
+
+                        {/* Settings and Help Section */}
+                        <div>
+                            {[
+                                {
+                                    href: "#settings",
+                                    icon: faCogs,
+                                    label: "Settings",
+                                },
+                                {
+                                    href: "#help-support",
+                                    icon: faCircleQuestion,
+                                    label: "Help & Support",
+                                },
+                            ].map((link, index) => (
+                                <a
+                                    key={index}
+                                    href={link.href}
+                                    className={`flex items-center p-3 rounded-xl border-l-2 border-gray-300 hover:border-lavender-500 hover:bg-purple-500 hover:text-white transition-all duration-300 ease-in-out ${
+                                        index !== 0 ? "mt-4" : ""
+                                    }`}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={link.icon}
+                                        className="mr-3 text-xl"
+                                    />
+                                    <span className="text-base">
+                                        {link.label}
+                                    </span>
+                                </a>
+                            ))}
+                        </div>
+                    </nav>
+                </aside>
+
+                {/* Main Content */}
+                <main className="flex-1 p-6 bg-gray-100">
+                    {header && (
+                        <header className="bg-white shadow">
+                            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                                {header}
+                            </div>
+                        </header>
+                    )}
+                    <main>{children}</main>
+                </main>
+            </div>
         </div>
     );
 }

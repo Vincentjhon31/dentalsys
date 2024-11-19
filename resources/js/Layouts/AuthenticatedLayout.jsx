@@ -78,7 +78,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                             className="hover:text-violet-800"
                                         >
                                             {">"}
-                                            {breadcrumb.name }
+                                            {breadcrumb.name}
                                         </Link>
                                         {index < breadcrumbs.length - 1 && (
                                             <span className="mx-2">/</span>
@@ -141,12 +141,12 @@ export default function AuthenticatedLayout({ header, children }) {
                 <aside className="w-64 bg-purple-200 text-black flex flex-col h-280">
                     <nav className="flex-1 p-6 space-y-4">
                         {[
-                            { href: "dashboard", icon: faHome, label: "Home" },
                             {
-                                href: "analytics",
-                                icon: faChartLine,
-                                label: "Analytics",
+                                href: "dashboard",
+                                icon: faHome,
+                                label: "Dashboard",
                             },
+
                             {
                                 href: "patients",
                                 icon: faUserInjured,
@@ -166,7 +166,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 href: "services",
                                 icon: faHandSparkles,
                                 label: "Services",
-                            }, // Updated Services link icon
+                            },
                         ].map((link, index) => (
                             <a
                                 key={index}

@@ -56,5 +56,9 @@ Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
 
 Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
 
+Route::put('/patients/{patient}', [PatientController::class, 'update']);
+Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
+
+
 
 require __DIR__.'/auth.php';

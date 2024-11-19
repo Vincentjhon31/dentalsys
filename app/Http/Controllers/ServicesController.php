@@ -14,16 +14,13 @@ class ServicesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
-{
-    // Fetch all services from the database
-    $services = Services::all();
-
-    // Pass the services data to the Inertia view
-    return Inertia::render('Services/Index', [
-        'services' => $services,
-    ]);
-}
+    public function index()
+    {
+        // Fetch all services and pass them to the Inertia page
+        return inertia('Services/Index', [
+            'services' => Services::latest()->get(),
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -36,15 +33,28 @@ class ServicesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+        // Validate the request data
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'duration' => 'required|string|max:100',
+            'cost' => 'required|numeric|min:0',
+            'location' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
         ]);
 
-        $request->user()->services()->create($validated);
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('services', 'public');
+        }
 
-        return redirect(route('services.index'));
+        // Create a new service
+        Services::create($validated);
+
+        return redirect()->route('services.index')->with('success', 'Service added successfully!');
     }
 
     /**

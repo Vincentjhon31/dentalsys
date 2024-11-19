@@ -41,8 +41,8 @@ Route::resource('/share',ShareController::class) #ito may binago ako sa /share, 
 Route::get('data', [profile::class, 'fetchData']);
 
 
-Route::resource('services', ServicesController::class)
-    ->only(['index', 'store'])
-    ->middleware(['auth', 'verified']);
+
+Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
+Route::post('/services', [ServicesController::class, 'store'])->name('services.store');
 
 require __DIR__.'/auth.php';

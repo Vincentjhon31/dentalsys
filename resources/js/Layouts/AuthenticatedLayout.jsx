@@ -1,5 +1,4 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
@@ -7,261 +6,258 @@ import { useState } from "react";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
-                <aside>
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="flex h-16 justify-between">
-                            <div className="flex">
-                                <div className="flex shrink-0 items-center">
-                                    <Link href="/">
-                                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                    </Link>
-                                    <h1 className="text-lg font-bold text-center mt-2">
-                                        ECSmile
-                                    </h1>
-                                </div>
+        <div className="min-h-screen bg-gray-100 flex">
+            {/* Mobile Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"
+                    onClick={toggleSidebar}
+                />
+            )}
 
-                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                    <NavLink
-                                        href={route("dashboard")}
-                                        active={route().current("dashboard")}
-                                    >
-                                        Dashboard
-                                    </NavLink>
-                                    <NavLink
-                                        href={route("share.index")}
-                                        active={route().current("share.index")}
-                                    >
-                                        Reviews
-                                    </NavLink>
-                                    <NavLink
-                                        href={route("services.index")}
-                                        active={route().current(
-                                            "services.index"
-                                        )}
-                                    >
-                                        Services
-                                    </NavLink>
-                                </div>
-                            </div>
-
-                            <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                                <div className="relative ms-3">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <span className="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
-                                                >
-                                                    {user.name}
-
-                                                    <svg
-                                                        className="-me-0.5 ms-2 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </Dropdown.Trigger>
-
-                                        <Dropdown.Content>
-                                            <Dropdown.Link
-                                                href={route("profile.edit")}
-                                            >
-                                                Profile
-                                            </Dropdown.Link>
-                                            <Dropdown.Link
-                                                href={route("logout")}
-                                                method="post"
-                                                as="button"
-                                            >
-                                                Log Out
-                                            </Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
-                            </div>
-
-                            <style>
-                                {`
-                    .hamburger-menu svg {
-                        transition: transform 0.3s ease-in-out;
-                    }
-                    .hamburger-menu.active svg {
-                        transform: rotate(90deg);
-                    }
-                    .line {
-                        transition: all 0.3s ease-in-out;
-                    }
-                    .close {
-                        transform: scale(0);
-                        transition: transform 0.3s ease-in-out;
-                    }
-                    .hamburger-menu.active .close {
-                        transform: scale(1);
-                    }
-                    .hamburger-menu.active .line {
-                        transform: scale(0);
-                    }
+            {/* Sidebar - Fixed Positioning */}
+            <aside
+                className={`
+                    fixed top-0 left-0 bottom-0 z-50 w-64 bg-white shadow-lg text-black
+                    transform transition-transform duration-300 ease-in-out
+                    overflow-y-auto scrollbar-thin scrollbar-track-gray-700 scrollbar-thumb-gray-500
+                    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                    lg:translate-x-0 lg:block
                 `}
-                            </style>
-                            <div className="-me-2 flex items-center sm:hidden">
-                                <button
-                                    onClick={() =>
-                                        setShowingNavigationDropdown(
-                                            (previousState) => !previousState
-                                        )
-                                    }
-                                    className={`hamburger-menu inline-flex items-center justify-center rounded-md p-2 transition-transform duration-300 ${
-                                        showingNavigationDropdown
-                                            ? "active"
-                                            : ""
-                                    } text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none`}
+            >
+                {/* Mobile Close Button */}
+                <button
+                    className="lg:hidden absolute top-4 right-4 text-black z-50"
+                    onClick={toggleSidebar}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </button>
+
+                {/* Sidebar Content - Scrollable */}
+                <div className="flex flex-col h-full">
+                    <div className="flex items-center p-4 mt-4 lg:mt-0">
+                        <Link href="/">
+                            <ApplicationLogo className="block h-9 w-auto fill-current text-black" />
+                        </Link>
+                        <Link href="/">
+                            <h1 className="ml-2 text-lg font-bold text-black">
+                                ECSmile
+                            </h1>
+                        </Link>
+                    </div>
+
+                    <nav className="flex-grow overflow-y-auto">
+                        <ul className="space-y-4">
+                            <li>
+                                <NavLink
+                                    href={route("dashboard")}
+                                    active={route().current("dashboard")}
+                                    className="block px-4 py-2 hover:bg-gray-700  hover:text-white"
+                                    onClick={toggleSidebar}
                                 >
                                     <svg
-                                        className="h-6 w-6"
-                                        stroke="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 mr-4"
                                     >
                                         <path
-                                            className={`line top ${
-                                                !showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }`}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 6h16"
-                                        />
-                                        <path
-                                            className={`line middle ${
-                                                !showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }`}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 12h16"
-                                        />
-                                        <path
-                                            className={`line bottom ${
-                                                !showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }`}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 18h16"
-                                        />
-                                        <path
-                                            className={`close top ${
-                                                showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }`}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6"
-                                        />
-                                        <path
-                                            className={`close bottom ${
-                                                showingNavigationDropdown
-                                                    ? "inline-flex"
-                                                    : "hidden"
-                                            }`}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 6l12 12"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                                         />
                                     </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
+                                    Dashboard
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    href={route("share.index")}
+                                    active={route().current("share.index")}
+                                    className="block px-4 py-2 hover:bg-gray-700  hover:text-white"
+                                    onClick={toggleSidebar}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 mr-4"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                                        />
+                                    </svg>
+                                    Reviews
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    href={route("services.index")}
+                                    active={route().current("services.index")}
+                                    className="block px-4 py-2 hover:bg-gray-700  hover:text-white"
+                                    onClick={toggleSidebar}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 mr-4"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                        />
+                                    </svg>
+                                    Services
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? "block" : "hidden") +
-                        " sm:hidden"
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route("share.index")}
-                            active={route().current("share.index")}
-                        >
-                            Share
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route("services.index")}
-                            active={route().current("services.index")}
-                        >
-                            Services
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
+                    {/* User Profile Section - Sticky Bottom */}
+                    <div className="mt-auto border-t border-gray-700 p-4">
+                        <div>
+                            <div className="text-base font-medium">
                                 {user.name}
                             </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
+                            <div className="text-sm">{user.email}</div>
                         </div>
-
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
+                            <ResponsiveNavLink
+                                href={route("profile.edit")}
+                                className="block px-4 py-2 hover:bg-gray-700  hover:text-white"
+                                onClick={toggleSidebar}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-6 mr-4"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                                    />
+                                </svg>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"
                                 href={route("logout")}
                                 as="button"
+                                className="block px-4 py-2 hover:bg-gray-700  hover:text-white"
                             >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-6 mr-4"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                                    />
+                                </svg>
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
-            </nav>
+            </aside>
 
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
+            {/* Main Content Area - Full Height Scrollable */}
+            <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+                {/* Mobile Header with Hamburger Menu */}
+                <header className="lg:hidden bg-white shadow p-4 flex items-center sticky top-0 z-40">
+                    <button
+                        onClick={toggleSidebar}
+                        className="mr-4 focus:outline-none"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                        </svg>
+                    </button>
+                    <div className="flex items-center">
+                        <ApplicationLogo className="block h-8 w-auto fill-current text-gray-800 mr-2" />
+                        <h1 className="text-lg font-bold">ECSmile</h1>
                     </div>
                 </header>
-            )}
 
-            <main>{children}</main>
+                {/* Desktop Header */}
+                {header && (
+                    <header className="hidden lg:block bg-white shadow sticky top-0 z-40">
+                        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                            {header}
+                        </div>
+                    </header>
+                )}
+
+                {/* Main Content - Scrollable */}
+                <main className="flex-grow overflow-y-auto p-4 lg:p-6">
+                    {children}
+                </main>
+            </div>
+
+            {/* Custom Scrollbar Styles */}
+            <style jsx global>{`
+                /* Custom Scrollbar for Webkit browsers */
+                .scrollbar-thin::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .scrollbar-thin::-webkit-scrollbar-track {
+                    background: #374151;
+                }
+                .scrollbar-thin::-webkit-scrollbar-thumb {
+                    background: #6b7280;
+                    border-radius: 4px;
+                }
+            `}</style>
         </div>
     );
 }

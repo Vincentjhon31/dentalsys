@@ -24,6 +24,9 @@ ChartJS.register(
     Legend
 );
 
+import ServiceChart from "@/Components/ServiceChart";
+import BarChart from "@/Components/BarChart";
+
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [patientCount, setPatientCount] = useState(0);
@@ -56,13 +59,25 @@ export default function Dashboard() {
 
     // Prepare month labels and data for dental appointments chart
     const monthLabels = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
-    const dentalDataByMonth = monthLabels.map(month => {
+    const dentalDataByMonth = monthLabels.map((month) => {
         return dentalAppointments.filter(({ date }) => {
-            const appointmentMonth = new Date(date).toLocaleString("default", { month: "long" });
+            const appointmentMonth = new Date(date).toLocaleString("default", {
+                month: "long",
+            });
             return appointmentMonth === month;
         }).length;
     });
@@ -73,7 +88,7 @@ export default function Dashboard() {
         datasets: [
             {
                 label: "Total Patients",
-                data: Array(12).fill(patientCount / 12), // Example distribution if uniform across months
+                data: Array(12).fill(patientCount / 12),
                 backgroundColor: "rgba(54, 162, 235, 0.6)",
                 borderColor: "rgba(54, 162, 235, 1)",
                 borderWidth: 1,
@@ -82,11 +97,11 @@ export default function Dashboard() {
     };
 
     const serviceData = {
-        labels: serviceRates.map(service => service.name),
+        labels: serviceRates.map((service) => service.name),
         datasets: [
             {
                 label: "Service Rates (%)",
-                data: serviceRates.map(service => service.rate),
+                data: serviceRates.map((service) => service.rate),
                 backgroundColor: "rgba(75, 192, 192, 0.6)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
@@ -144,30 +159,34 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* Dashboard Analytics with Vertical Bar Charts */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Dashboard Analytics</h2>
+                    <h2 className="text-xl font-semibold mb-4">
+                        Dashboard Analytics
+                    </h2>
                     {loading ? (
                         <p>Loading analytics...</p>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {/* Total Patients Chart */}
                             <div className="p-4">
-                                <h3 className="text-lg font-semibold mb-2">Total Patients (Approximate Monthly Distribution)</h3>
-                                <Bar data={patientData} options={{ indexAxis: 'x' }} />
+                                <h3 className="text-lg font-semibold mb-2">
+                                    Appointment Rates
+                                    <BarChart></BarChart>
+                                </h3>
                             </div>
-                            {/* Service Rates Chart */}
+
                             <div className="p-4">
-                                <h3 className="text-lg font-semibold mb-2">Service Popularity</h3>
-                                <Bar data={serviceData} options={{ indexAxis: 'x' }} />
-                            </div>
-                            {/* Dental Appointments Chart */}
-                            <div className="p-4">
-                                <h3 className="text-lg font-semibold mb-2">Dental Appointments by Month</h3>
-                                <Bar data={dentalData} options={{ indexAxis: 'x' }} />
+                                <h3 className="text-lg font-semibold mb-2 ml-20">
+                                    Service Popularity
+                                    <ServiceChart></ServiceChart>
+                                </h3>
                             </div>
                         </div>
                     )}
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+                    ms,njjlsDOAJDIEHAFYC
                 </div>
             </div>
         </AuthenticatedLayout>

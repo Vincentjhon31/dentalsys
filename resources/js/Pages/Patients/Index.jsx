@@ -192,10 +192,14 @@ export default function Index({ patients }) {
                             {showModal && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
                                     <div className="bg-white rounded-lg p-6 w-full max-w-lg">
-                                        <h2 className="text-2xl font-bold mb-4">Add New Patient</h2>
+                                        <h2 className="text-2xl font-bold mb-4">
+                                            Add New Patient
+                                        </h2>
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Name</label>
+                                                <label className="block text-gray-700">
+                                                    Name
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="name"
@@ -206,7 +210,9 @@ export default function Index({ patients }) {
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Age</label>
+                                                <label className="block text-gray-700">
+                                                    Age
+                                                </label>
                                                 <input
                                                     type="number"
                                                     name="age"
@@ -217,7 +223,9 @@ export default function Index({ patients }) {
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Gender</label>
+                                                <label className="block text-gray-700">
+                                                    Gender
+                                                </label>
                                                 <select
                                                     name="gender"
                                                     value={formData.gender}
@@ -225,14 +233,24 @@ export default function Index({ patients }) {
                                                     className="w-full px-3 py-2 border rounded-md"
                                                     required
                                                 >
-                                                    <option value="">Select Gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                    <option value="Other">Other</option>
+                                                    <option value="">
+                                                        Select Gender
+                                                    </option>
+                                                    <option value="Male">
+                                                        Male
+                                                    </option>
+                                                    <option value="Female">
+                                                        Female
+                                                    </option>
+                                                    <option value="Other">
+                                                        Other
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Contact</label>
+                                                <label className="block text-gray-700">
+                                                    Contact
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="contact"
@@ -243,7 +261,9 @@ export default function Index({ patients }) {
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Address</label>
+                                                <label className="block text-gray-700">
+                                                    Address
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="address"
@@ -254,7 +274,9 @@ export default function Index({ patients }) {
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Dental Case</label>
+                                                <label className="block text-gray-700">
+                                                    Dental Case
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="dental_case"
@@ -265,7 +287,9 @@ export default function Index({ patients }) {
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700">Status</label>
+                                                <label className="block text-gray-700">
+                                                    Status
+                                                </label>
                                                 <select
                                                     name="status"
                                                     value={formData.status}
@@ -273,19 +297,33 @@ export default function Index({ patients }) {
                                                     className="w-full px-3 py-2 border rounded-md"
                                                     required
                                                 >
-                                                    <option value="">Select Status</option>
-                                                    <option value="Student">Student</option>
-                                                    <option value="Teacher">Teacher</option>
-                                                    <option value="Visitor">Visitor</option>
-                                                    <option value="Staff">Staff</option>
-                                                    <option value="Alumni">Alumni</option>
+                                                    <option value="">
+                                                        Select Status
+                                                    </option>
+                                                    <option value="Student">
+                                                        Student
+                                                    </option>
+                                                    <option value="Teacher">
+                                                        Teacher
+                                                    </option>
+                                                    <option value="Visitor">
+                                                        Visitor
+                                                    </option>
+                                                    <option value="Staff">
+                                                        Staff
+                                                    </option>
+                                                    <option value="Alumni">
+                                                        Alumni
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div className="flex justify-end">
                                                 <button
                                                     type="button"
                                                     className="bg-gray-400 text-white px-4 py-2 rounded-md mr-2"
-                                                    onClick={() => setShowModal(false)}
+                                                    onClick={() =>
+                                                        setShowModal(false)
+                                                    }
                                                 >
                                                     Cancel
                                                 </button>
@@ -302,53 +340,106 @@ export default function Index({ patients }) {
                             )}
                             {/* Patients Table */}
                             <div className="mt-8">
-                                <h2 className="text-2xl font-semibold mb-4 text-gray-800">Patients List</h2>
+                                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                                    Patients List
+                                </h2>
                                 <table className="min-w-full table-auto border-collapse bg-white rounded-lg shadow-md overflow-hidden">
                                     <thead>
                                         <tr className="bg-violet-100">
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Age</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Gender</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Contact</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Dental Case</th>
-                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
-                                            <th className="border px-4 py-2 text-center text-sm font-medium text-gray-700">Actions</th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                ID
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Name
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Age
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Gender
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Contact
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Dental Case
+                                            </th>
+                                            <th className="border px-4 py-2 text-left text-sm font-medium text-gray-700">
+                                                Status
+                                            </th>
+                                            <th className="border px-4 py-2 text-center text-sm font-medium text-gray-700">
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {patients.data && patients.data.length > 0 ? (
+                                        {patients.data &&
+                                        patients.data.length > 0 ? (
                                             patients.data.map((patient) => (
-                                                <tr key={patient.id} className="hover:bg-violet-50">
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.id}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.name}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.age}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.gender}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.contact}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.dental_case}</td>
-                                                    <td className="border px-4 py-2 text-sm text-gray-700">{patient.status}</td>
+                                                <tr
+                                                    key={patient.id}
+                                                    className="hover:bg-violet-50"
+                                                >
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.id}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.name}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.age}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.gender}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.contact}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.dental_case}
+                                                    </td>
+                                                    <td className="border px-4 py-2 text-sm text-gray-700">
+                                                        {patient.status}
+                                                    </td>
                                                     <td className="border px-4 py-2 text-center text-sm text-gray-700">
                                                         <button
-                                                            onClick={() => handleEdit(patient)}
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    patient
+                                                                )
+                                                            }
                                                             className="text-blue-600 hover:underline mr-2"
                                                         >
-                                                            <FontAwesomeIcon icon={faEdit} />
+                                                            <FontAwesomeIcon
+                                                                icon={faEdit}
+                                                            />
                                                         </button>
                                                         <button
-                                                            onClick={() => handleDelete(patient.id)}
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    patient.id
+                                                                )
+                                                            }
                                                             className="text-red-600 hover:underline"
                                                         >
-                                                            <FontAwesomeIcon icon={faTrash} />
+                                                            <FontAwesomeIcon
+                                                                icon={faTrash}
+                                                            />
                                                         </button>
-                                                        <button className="text-green-600 hover:underline">
-                                                            <FontAwesomeIcon icon={faEye} />
+                                                        <button className="text-green-600 hover:underline ml-5">
+                                                            <FontAwesomeIcon
+                                                                icon={faEye}
+                                                            />
                                                         </button>
                                                     </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="8" className="text-center p-4">
+                                                <td
+                                                    colSpan="8"
+                                                    className="text-center p-4"
+                                                >
                                                     No patients found
                                                 </td>
                                             </tr>

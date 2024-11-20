@@ -228,27 +228,34 @@ export default function AddService({ auth, services }) {
                 </div>
             )}
 
-            {/* Display Services */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-9 pl-11 pr-11">
-                {services.map((service) => (
-                    <div
-                        key={service.id}
-                        className="bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"
-                        onClick={() => handleServiceClick(service)}
-                    >
-                        <img
-                            src={service.image}
-                            alt={service.name}
-                            className="w-full h-48 object-cover"
-                        />
-                        <div className="p-4">
-                            <h3 className="font-bold text-lg">
-                                {service.name}
-                            </h3>
-                            <p className="text-gray-600">{service.duration}</p>
+                {services && services.length > 0 ? (
+                    services.map((service) => (
+                        <div
+                            key={service.id}
+                            className="bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"
+                            onClick={() => handleServiceClick(service)}
+                        >
+                            <img
+                                src={`${window.location.origin}/storage/${service.image}`}
+                                alt={service.name}
+                                className="w-full h-48 object-cover"
+                            />
+                            <div className="p-4">
+                                <h3 className="font-bold text-lg">
+                                    {service.name}
+                                </h3>
+                                <p className="text-gray-600">
+                                    {service.duration}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500 w-full col-span-3">
+                        No services available at the moment.
+                    </p>
+                )}
             </div>
         </AuthenticatedLayout>
     );

@@ -17,9 +17,9 @@ export default function Index({ auth, services }) {
                                 className="border rounded-lg p-4 shadow"
                             >
                                 <img
-                                    src={service.image}
+                                    src={`${window.location.origin}/storage/${service.image}`}
                                     alt={service.name}
-                                    className="w-full h-48 object-cover rounded-lg mb-4"
+                                    className="w-full h-48 object-cover"
                                 />
                                 <h2 className="text-xl font-bold">
                                     {service.name}

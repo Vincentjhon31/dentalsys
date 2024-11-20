@@ -45,4 +45,11 @@ Route::get('data', [profile::class, 'fetchData']);
 Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
 Route::post('/services', [ServicesController::class, 'store'])->name('services.store');
 
+
+use App\Http\Controllers\ClassController;
+
+Route::get('/classes', [ClassController::class, 'index'])->name('classes.index');
+Route::get('/classes/create', [ClassController::class, 'create'])->name('classes.create');
+Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
+
 require __DIR__.'/auth.php';

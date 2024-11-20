@@ -34,28 +34,32 @@ class ServicesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // Validate the request data
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'duration' => 'required|string|max:100',
-            'cost' => 'required|numeric|min:0',
-            'location' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000',
+        'duration' => 'required|string',
+        'cost' => 'required|numeric',
+        'location' => 'required|string',
+        'category' => 'required|string',
+    ]);
 
-        // Handle image upload if present
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('services', 'public');
-        }
 
-        // Create a new service
-        Services::create($validated);
+    $imagePath = $request->file('image')->store('services', 'public');
 
-        return redirect()->route('services.index')->with('success', 'Service added successfully!');
-    }
+    $service = Services::create([
+        'name' => $request->name,
+        'description' => $request->description,
+        'image' => $imagePath,
+        'duration' => $request->duration,
+        'cost' => $request->cost,
+        'location' => $request->location,
+        'category' => $request->category,
+    ]);
+
+    return redirect()->back()->with('success', 'Service added successfully!');
+}
 
     /**
      * Display the specified resource.

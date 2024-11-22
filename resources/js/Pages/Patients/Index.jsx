@@ -12,7 +12,6 @@ import { Head } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "@/components/Pagination";
 
-
 export default function Index({ patients }) {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false); // For delete confirmation

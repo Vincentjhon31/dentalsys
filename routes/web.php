@@ -3,7 +3,7 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PatientsController;
-use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\CalendarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -58,14 +58,24 @@ Route::get('data', [ProfileController::class, 'fetchData'])->name('data.fetch');
 
 Route::get('/api/addpatients/count', [PatientController::class, 'getPatientsCount']);
 
-Route::get('/appointments', [AppointmentsController::class, 'index'])
-    ->name('appointments.index');
+Route::middleware(['auth'])->group(function () {
+    // Show the calendar page with events
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+    
+    // Store a new event
+    Route::post('/calendar', [CalendarController::class, 'store'])->name('calendar.store');
+    
+    // Show details for a specific event
+    Route::get('/calendar/{id}', [CalendarController::class, 'show'])->name('calendar.show');
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/appointments', [AppointmentsController::class, 'index']) ->name('appointments.index');
 Route::get('/appointments', function () {
-    return Inertia::render('Appointments/Index');
-})->name('appointments');
-
-
-
-
+    return Inertia::render('Appointments/Index');})->name('appointments');
+});
+    
 
 require __DIR__.'/auth.php';

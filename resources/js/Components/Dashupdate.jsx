@@ -99,7 +99,7 @@ const Dashupdate = () => {
                         {todayAppointments.length > 0 ? (
                             todayAppointments.map(renderAppointment)
                         ) : (
-                            <p>No appointments for today.</p>
+                            <p style={{ fontSize: "0.875rem", color: "#6b7280", textAlign: "center" }}>No appointments for today.</p>
                         )}
                     </>
                 ) : (
@@ -110,7 +110,7 @@ const Dashupdate = () => {
                         {upcomingAppointments.length > 0 ? (
                             upcomingAppointments.map(renderAppointment)
                         ) : (
-                            <p>No upcoming appointments.</p>
+                            <p style={{ fontSize: "0.875rem", color: "#6b7280", textAlign: "center" }}>No upcoming appointments.</p>
                         )}
                     </>
                 )}

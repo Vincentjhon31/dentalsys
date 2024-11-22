@@ -55,9 +55,14 @@ Route::delete('/patients/{id}', [PatientsController::class, 'destroy'])->name('p
 
 Route::get('data', [ProfileController::class, 'fetchData'])->name('data.fetch');
 
-// Get the count of patients from the 'addpatients' table
-// web.php
+
 Route::get('/api/addpatients/count', [PatientController::class, 'getPatientsCount']);
+
+Route::get('/appointments', [AppointmentsController::class, 'index'])
+    ->name('appointments.index');
+Route::get('/appointments', function () {
+    return Inertia::render('Appointments/Index');
+})->name('appointments');
 
 
 

@@ -1,7 +1,6 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,22 +24,6 @@ export default function AuthenticatedLayout({ header, children }) {
     const { current_route } = usePage().props;
     console.log("Current route:", current_route);
 
-    // Define breadcrumb structure dynamically based on current route
-    const breadcrumbs = [
-        ...(current_route !== "dashboard" // Avoid "Home" on the dashboard
-            ? [{ name: "Home", href: route("dashboard") }]
-            : []),
-        ...(current_route === "patients"
-            ? [{ name: "Patients", href: route("patients") }]
-            : []),
-        ...(current_route === "appointments"
-            ? [{ name: "Appointments", href: route("appointments") }]
-            : []),
-        ...(current_route === "calendar"
-            ? [{ name: "Calendar", href: route("calendar") }]
-            : []),
-    ];
-
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
             {/* Header */}
@@ -56,38 +39,9 @@ export default function AuthenticatedLayout({ header, children }) {
                             <span className="text-violet-600 font-bold text-2xl">
                                 ECSmile
                             </span>{" "}
-                            <NavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                                className="ml-6 text-sm font-medium text-gray-700 hover:text-gray-900"
-                            >
-                                Dashboard
-                            </NavLink>
-                            <div className="flex items-center space-x-2">
-                                {breadcrumbs.map((breadcrumb, index) => (
-                                    <span
-                                        key={breadcrumb.name}
-                                        className={`text-sm font-medium ${
-                                            current_route === breadcrumb.href
-                                                ? "text-violet-800 font-bold"
-                                                : "text-gray-700 hover:text-gray-900"
-                                        }`}
-                                    >
-                                        <Link
-                                            href={breadcrumb.href}
-                                            className="hover:text-violet-800"
-                                        >
-                                            {">"}
-                                            {breadcrumb.name}
-                                        </Link>
-                                        {index < breadcrumbs.length - 1 && (
-                                            <span className="mx-2">/</span>
-                                        )}
-                                    </span>
-                                ))}
-                            </div>
                         </div>
 
+                        {/* User Profile Dropdown */}
                         <div className="hidden sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Dropdown>
@@ -98,7 +52,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
                                                 {user.name}
-
                                                 <svg
                                                     className="-me-0.5 ms-2 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +99,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                 icon: faHome,
                                 label: "Dashboard",
                             },
-
                             {
                                 href: "patients",
                                 icon: faUserInjured,

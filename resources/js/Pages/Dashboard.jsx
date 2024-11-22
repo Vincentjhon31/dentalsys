@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
 import { Bar } from "react-chartjs-2";
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -26,6 +27,8 @@ ChartJS.register(
 
 import ServiceChart from "@/Components/ServiceChart";
 import BarChart from "@/Components/BarChart";
+import Dashupdate from "@/Components/Dashupdate";
+import Totaldash from "@/Components/Totaldash";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -185,8 +188,16 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <div className="bg-white p-6 rounded-lg shadow-md mt-8">
-                    ms,njjlsDOAJDIEHAFYC
+                <div className="flex justify-between space-x-4 mt-8">
+                    {/* Dashupdate Box */}
+                    <div className="bg-white p-6 rounded-lg shadow-md w-1/2">
+                        <Dashupdate />
+                    </div>
+
+                    {/* Totaldash Box (aligned at the top) */}
+                    <div className="bg-white p-6 rounded-lg shadow-md w-1/2">
+                        <Totaldash />
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

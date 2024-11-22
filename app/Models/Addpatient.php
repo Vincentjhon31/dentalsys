@@ -9,10 +9,9 @@ class Addpatient extends Model
 {
     use HasFactory;
 
-    // Specify the name of the table
-    protected $table = 'addpatients'; // This table is manually created
-
-    // Specify the fields that are mass assignable
+    
+    protected $table = 'addpatients'; 
+    
     protected $fillable = [
         'name',
         'age',
@@ -22,4 +21,6 @@ class Addpatient extends Model
         'dental_case',
         'status',
     ];
+
+    
 }

@@ -10,9 +10,13 @@ import {
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
+import Pagination from "@/components/Pagination";
+
 
 export default function Index({ patients }) {
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // For delete confirmation
+    const [patientToDelete, setPatientToDelete] = useState(null); // Store the patient ID to delete
     const [formData, setFormData] = useState({
         id: "",
         name: "",
@@ -34,7 +38,6 @@ export default function Index({ patients }) {
         });
     };
 
-    // Handle form submission (Add or Edit)
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -58,6 +61,7 @@ export default function Index({ patients }) {
                         text: "Patient updated successfully!",
                         type: "success",
                     });
+                    Inertia.visit("/patients"); // Redirect to the patients index page
                 },
                 onError: () => {
                     setMessage({
@@ -67,7 +71,7 @@ export default function Index({ patients }) {
                 },
             });
         } else {
-            // Add New Patient
+            // Add New Patient (This part remains the same)
             Inertia.post("/patients", formData, {
                 onSuccess: () => {
                     setShowModal(false);
@@ -111,24 +115,36 @@ export default function Index({ patients }) {
         setShowModal(true); // Show the modal
     };
 
-    // Handle Delete button click
+    // Handle Delete button click - show confirmation modal
     const handleDelete = (id) => {
-        if (confirm("Are you sure you want to delete this patient?")) {
-            Inertia.delete(`/patients/${id}`, {
-                onSuccess: () => {
-                    setMessage({
-                        text: "Patient deleted successfully!",
-                        type: "success",
-                    });
-                },
-                onError: () => {
-                    setMessage({
-                        text: "Failed to delete patient. Please try again.",
-                        type: "error",
-                    });
-                },
-            });
-        }
+        setPatientToDelete(id);
+        setShowDeleteModal(true);
+    };
+
+    // Confirm Delete
+    const confirmDelete = () => {
+        console.log("Deleting Patient ID:", patientToDelete); // Check if the correct ID is logged
+        Inertia.delete(`/patients/${patientToDelete}`, {
+            onSuccess: () => {
+                setShowDeleteModal(false); // Close modal after successful deletion
+                setMessage({
+                    text: "Patient deleted successfully!",
+                    type: "success",
+                });
+            },
+            onError: (errors) => {
+                console.error("Delete request failed:", errors); // Log errors to debug
+                setMessage({
+                    text: "Failed to delete patient. Please try again.",
+                    type: "error",
+                });
+            },
+        });
+    };
+
+    // Close Delete Modal without deleting
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
     };
 
     return (
@@ -136,7 +152,7 @@ export default function Index({ patients }) {
             <Head title="Patients" />
             <div className="py-6">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white shadow-lg sm:rounded-lg overflow-hidden">
+                    <div className="bg-white shadow-lg sm:rounded-lg overflow-hidden h-[600px]">
                         <div className="p-6 text-gray-900">
                             <div className="flex justify-between items-center mb-4 space-x-4">
                                 <div className="relative w-2/3">
@@ -188,12 +204,14 @@ export default function Index({ patients }) {
                                 </div>
                             )}
 
-                            {/* Modal */}
+                            {/* Modal for Add/Edit */}
                             {showModal && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
                                     <div className="bg-white rounded-lg p-6 w-full max-w-lg">
                                         <h2 className="text-2xl font-bold mb-4">
-                                            Add New Patient
+                                            {isEditMode
+                                                ? "Edit Patient"
+                                                : "Add New Patient"}
                                         </h2>
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-4">
@@ -338,6 +356,33 @@ export default function Index({ patients }) {
                                     </div>
                                 </div>
                             )}
+
+                            {/* Delete Confirmation Modal */}
+                            {showDeleteModal && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                    <div className="bg-white rounded-lg p-6 w-full max-w-lg">
+                                        <h2 className="text-2xl font-bold mb-4">
+                                            Are you sure you want to delete this
+                                            patient?
+                                        </h2>
+                                        <div className="flex justify-end space-x-4">
+                                            <button
+                                                onClick={closeDeleteModal}
+                                                className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                onClick={confirmDelete} // Restore the original delete logic
+                                                className="bg-red-600 text-white px-4 py-2 rounded-md"
+                                            >
+                                                Confirm
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Patients Table */}
                             <div className="mt-8">
                                 <h2 className="text-2xl font-semibold mb-4 text-gray-800">
@@ -446,6 +491,7 @@ export default function Index({ patients }) {
                                         )}
                                     </tbody>
                                 </table>
+                                <Pagination links={patients.links} />
                             </div>
                         </div>
                     </div>

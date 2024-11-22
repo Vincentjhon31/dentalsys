@@ -16,7 +16,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <img
                             src="/assets/logo.png"
                             alt="Logo"
-                            className="h-14 w-18" // Increased size of the logo
+                            className="h-14 w-18" 
                         />
                         <span className="text-xl font-extrabold text-purple-700">
                             {" "}

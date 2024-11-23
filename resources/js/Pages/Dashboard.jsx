@@ -30,7 +30,9 @@ export default function Dashboard() {
             }
         >
             <Head title="Dashboard" />
-
+            <h1 className="text-2xl font-bold text-start my-4 md:hidden">
+                Dashboard
+            </h1>
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">

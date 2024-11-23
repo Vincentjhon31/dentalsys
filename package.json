@@ -27,6 +27,8 @@
         "@heroicons/react": "^2.2.0",
         "dayjs": "^1.11.13",
         "lottie-react": "^2.4.0",
+        "react-image-crop": "^11.0.7",
+        "react-loader-spinner": "^6.1.6",
         "react-router-dom": "^6.28.0",
         "react-toastify": "^10.0.6"
     }

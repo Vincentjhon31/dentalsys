@@ -42,7 +42,19 @@ Route::get('data', [profile::class, 'fetchData']);
 
 
 
-Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
+Route::get('/services', [ServicesController::class, 'index'])->name('services.index')
+ ->middleware(['auth', 'verified']);
 Route::post('/services', [ServicesController::class, 'store'])->name('services.store');
+
+
+Route::get('/services/{service}/edit', [ServicesController::class, 'edit'])->name('services.edit');
+Route::patch('/services/{service}', [ServicesController::class, 'update'])->name('services.update');
+
+Route::get('/services/{id}', [ServicesController::class, 'show'])->name('services.show');
+Route::post('/services/{id}/update', [ServicesController::class, 'update'])->name('services.update');
+
+// web.php
+Route::delete('/services/{service}', [ServicesController::class, 'destroy'])->name('services.destroy');
+
 
 require __DIR__.'/auth.php';

@@ -115,6 +115,11 @@ export default function AuthenticatedLayout({ header, children }) {
                                 label: "Calendar",
                             },
                             {
+                                href: "reports", 
+                                icon: faChartLine, 
+                                label: "Reports",
+                            },
+                            {
                                 href: "services",
                                 icon: faHandSparkles,
                                 label: "Services",

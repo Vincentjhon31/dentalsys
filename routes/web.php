@@ -3,7 +3,7 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PatientsController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\CalendarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -40,8 +40,10 @@ Route::resource('chirps', ChirpController::class)
 Route::middleware('auth')->group(function () {
     Route::get('/patients', [PatientsController::class, 'index'])->name('patients.index');
     Route::post('/patients', [PatientsController::class, 'store'])->name('patients.store');
-    Route::put('/patients/{patient}', [PatientsController::class, 'update'])->name('patients.update');
+    Route::put('/patients/{id}', [PatientsController::class, 'update'])->name('patients.update');  // Fixed: Use PatientsController
     Route::delete('/patients/{patient}', [PatientsController::class, 'destroy'])->name('patients.destroy');
+    Route::get('/patients/{id}', [PatientsController::class, 'show'])->name('patients.show');
+
 });
 
 
@@ -50,13 +52,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 });
 
-Route::resource('patients', PatientsController::class);
-Route::delete('/patients/{id}', [PatientsController::class, 'destroy'])->name('patients.destroy');
+
 
 Route::get('data', [ProfileController::class, 'fetchData'])->name('data.fetch');
 
 
-Route::get('/api/addpatients/count', [PatientController::class, 'getPatientsCount']);
+Route::get('/api/addpatients/count', [PatientsController::class, 'getPatientsCount']);
 
 Route::middleware(['auth'])->group(function () {
     // Show the calendar page with events
@@ -70,12 +71,11 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+
 Route::middleware('auth')->group(function () {
-    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-    Route::get('/appointments', [AppointmentsController::class, 'index']) ->name('appointments.index');
-Route::get('/appointments', function () {
-    return Inertia::render('Appointments/Index');})->name('appointments');
+    // Route to display the appointments page
+    Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
+    Route::post('/appointments', [AppointmentsController::class, 'store'])->name('appointments.store');
 });
-    
 
 require __DIR__.'/auth.php';

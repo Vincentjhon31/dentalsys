@@ -32,46 +32,55 @@ class PatientsController extends Controller
 
     // Store new patient
     public function store(Request $request)
-    {
-        // Validate the incoming data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'gender' => 'required|string',
-            'contact' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'dental_case' => 'nullable|string|max:255',
-            'status' => 'required|string',
-        ]);
+{
+    // Validate incoming data
+    $validated = $request->validate([
+        'name' => 'required|string',
+        'age' => 'required|integer',
+        'gender' => 'required|string',
+        'contact' => 'required|string',
+        'address' => 'required|string',
+        'dental_case' => 'required|string',
+        'status' => 'required|string',
+        'email' => 'required|email', // Added email field
+        'dob' => 'required|date', // Added date of birth field
+    ]);
 
-        // Create a new patient record
-        Addpatient::create($validatedData);
-
+        // Create a new patient using the validated data
+        $patient = Addpatient::create($validated);
+    
+        // Redirect back with success message
         return redirect()->route('patients.index')->with('success', 'Patient added successfully!');
     }
-
     // Update existing patient
     public function update(Request $request, $id)
     {
-        // Find the patient by ID
-        $patient = Addpatient::findOrFail($id); // Corrected to use Addpatient model
-
-        // Validate the incoming data
-        $request->validate([
+        // Fetch the patient to be updated
+        $patient = Addpatient::findOrFail($id);
+        
+        // Validate the incoming request data
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'age' => 'required|integer|min:1|max:150',
-            'gender' => 'required|string|in:Male,Female',
-            'contact' => 'required|string|max:15',
+            'age' => 'required|integer|min:1',
+            'gender' => 'required|string',
+            'contact' => 'required|string',
             'address' => 'required|string',
             'dental_case' => 'required|string',
-            'status' => 'required|string|in:Active,Inactive',
+            'status' => 'required|string',
+            'email' => 'required|email', // Added email validation
+            'dob' => 'required|date', // Added date of birth validation
         ]);
+    
+    
+    // Update the patient data
+    $patient->update($validatedData);
+    
+    // Return an Inertia redirect with success message
+    return Inertia::render('Patients/Index', [
+        'patients' => Addpatient::paginate(10),  // Reload the patients list after update
+    ])->with('success', 'Patient updated successfully!');
+}
 
-        // Update the patient's data
-        $patient->update($request->all());
-
-        return redirect()->route('patients.index')->with('success', 'Patient updated successfully.');
-    }
 
     // Delete a patient
     public function destroy($id)
@@ -82,4 +91,13 @@ class PatientsController extends Controller
 
         return response()->json(['message' => 'Patient deleted successfully'], 200);
     }
+
+    public function show($id)
+{
+    $patient = Addpatient::findOrFail($id); // Fetch the patient data by ID
+
+    return inertia('Patients/Show', [
+        'patient' => $patient, // Pass the data to the front-end
+    ]);
+}
 }

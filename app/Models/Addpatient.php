@@ -9,7 +9,6 @@ class Addpatient extends Model
 {
     use HasFactory;
 
-    
     protected $table = 'addpatients'; 
     
     protected $fillable = [
@@ -20,7 +19,7 @@ class Addpatient extends Model
         'address',
         'dental_case',
         'status',
+        'email',  // Added email field
+        'dob',    // Added date of birth field
     ];
-
-    
 }

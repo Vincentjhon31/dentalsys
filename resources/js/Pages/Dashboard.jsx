@@ -3,7 +3,11 @@ import { Head } from "@inertiajs/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+    faSearch,
+    faBell,
+    faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -149,6 +153,16 @@ export default function Dashboard() {
                             onChange={(e) => setCurrentDate(e.target.value)}
                             className="bg-transparent focus:outline-none text-gray-700 border-none text-sm w-full"
                         />
+                    </div>
+                    <div
+                        className="relative cursor-pointer"
+                        onClick={() => alert("Messages clicked!")}
+                    >
+                        <FontAwesomeIcon
+                            icon={faEnvelope}
+                            className="text-gray-700 text-2xl"
+                        />
+                        <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full border-white border-2"></span>
                     </div>
                     <div
                         className="relative cursor-pointer"

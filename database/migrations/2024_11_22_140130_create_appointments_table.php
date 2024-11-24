@@ -10,13 +10,15 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained()->onDelete('cascade'); // Foreign key linking to the 'patients' table
+            $table->unsignedBigInteger('patient_id');
             $table->date('date');
-            $table->time('start_time');  // Start time for the appointment
-            $table->time('end_time');    // End time for the appointment
-            $table->string('appointment_type');  // Type of the appointment
-            $table->string('status');    // Status of the appointment
-            $table->timestamps();  // Created at and updated at timestamps
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->string('appointment_type');
+            $table->string('status');
+            $table->timestamps();
+
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
         });
     }
 

@@ -25,7 +25,7 @@ class AppointmentsController extends Controller
             });
 
         // Pass data to the frontend (Inertia.js)
-        return inertia('Appointments/Main', [
+        return inertia('Appointments/Index', [
             'appointments' => $appointments,
         ]);
     }
@@ -34,7 +34,7 @@ class AppointmentsController extends Controller
     {
         // Validate incoming data
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id', // Ensure the patient exists in the database
+            'patient_id' => 'required|exists:patients,id', // Ensure the patient exists
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
@@ -42,19 +42,16 @@ class AppointmentsController extends Controller
             'status' => 'required|string|max:50',
         ]);
 
-        // Create a new appointment record
-        $appointment = Appointment::create([
-            'patient_id' => $validated['patient_id'],
-            'date' => $validated['date'],
-            'start_time' => $validated['start_time'],
-            'end_time' => $validated['end_time'],
-            'appointment_type' => $validated['appointment_type'],
-            'status' => $validated['status'],
-        ]);
+        try {
+            // Create a new appointment record
+            $appointment = Appointment::create($validated);
 
-        // Optionally, send a confirmation email to the patient
-
-        // Redirect to the appointments index or send a success message
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+            // Return success response
+            return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        } catch (\Exception $e) {
+            // Log and handle errors
+            \Log::error($e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to create appointment.']);
+        }
     }
 }

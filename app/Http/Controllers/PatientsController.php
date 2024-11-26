@@ -89,7 +89,8 @@ class PatientsController extends Controller
         $patient = Addpatient::findOrFail($id);  // Corrected to use Addpatient model
         $patient->delete();
 
-        return response()->json(['message' => 'Patient deleted successfully'], 200);
+        // Use toast notification instead of response()->json()
+        return redirect()->route('patients.index')->with('toast', 'Patient deleted successfully!');
     }
 
     public function show($id)
@@ -101,3 +102,4 @@ class PatientsController extends Controller
     ]);
 }
 }
+

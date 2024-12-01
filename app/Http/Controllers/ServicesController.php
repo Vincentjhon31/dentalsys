@@ -30,7 +30,16 @@ class ServicesController extends Controller
         return inertia('Services/Index', [
             'services' => Services::latest()->get(),
         ]);
+
+
     }
+
+    public function indexApi()
+{
+    return response()->json([
+        'services' => Services::latest()->get(),
+    ]);
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -50,7 +59,7 @@ class ServicesController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'duration' => 'required|string|max:100',
-            'cost' => 'required|numeric|min:0',
+            'cost' => 'required|string|min:0',
             'location' => 'required|string|max:255',
             'category' => 'required|string|max:255',
         ]);
@@ -137,6 +146,7 @@ class ServicesController extends Controller
 
     return redirect()->route('services.index')->with('success', 'Service deleted successfully.');
 }
+
 
 
 }

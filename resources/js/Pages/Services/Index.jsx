@@ -6,10 +6,17 @@ import { useForm, Head } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SearchBar from "@/Components/SearchBar";
 
 export default function AddService({ auth, services }) {
     const [showModal, setShowModal] = useState(false);
     const [expandedDescriptions, setExpandedDescriptions] = useState({}); // Keeps track of expanded descriptions
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Filter services based on the search term
+    const filteredServices = services.filter((service) =>
+        service.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const toggleDescription = (serviceId) => {
         setExpandedDescriptions((prev) => ({
@@ -63,13 +70,13 @@ export default function AddService({ auth, services }) {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             class="size-4"
                         >
                             <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                                 d="M12 4.5v15m7.5-7.5h-15"
                             />
                         </svg>
@@ -111,13 +118,13 @@ export default function AddService({ auth, services }) {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
-                                                stroke-width="1.5"
+                                                strokeWidth="1.5"
                                                 stroke="currentColor"
                                                 className="size-6"
                                             >
                                                 <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
                                                     d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                                                 />
                                             </svg>
@@ -305,13 +312,13 @@ export default function AddService({ auth, services }) {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="size-6"
                 >
                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M12 4.5v15m7.5-7.5h-15"
                     />
                 </svg>
@@ -327,99 +334,116 @@ export default function AddService({ auth, services }) {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
                         class="size-6"
                     >
                         <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M12 4.5v15m7.5-7.5h-15"
                         />
                     </svg>
                 </button>
                 {/* List View for Services */}
                 <div className="mt-4 bg-white shadow-sm rounded-lg divide-y mx-auto p-4 sm:p-6 lg:p-8">
+                    {/* Search Bar */}
+                    <SearchBar
+                        placeholder="Search services by name..."
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        className="mb-4"
+                    />
                     {services && services.length > 0 ? (
                         <ul className="divide-y divide-gray-200">
-                            {services.map((service) => (
-                                <li
-                                    key={service.id}
-                                    className="flex items-center space-x-4 py-4 px-2 cursor-pointer hover:bg-gray-200 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:px-4"
-                                    onClick={() => handleServiceClick(service)}
-                                >
-                                    {/* Service Image */}
-                                    {service.image ? (
-                                        <img
-                                            src={`${window.location.origin}/storage/${service.image}`}
-                                            alt={service.name}
-                                            className="w-20 h-20 object-cover rounded-full"
-                                        />
-                                    ) : (
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            class="w-20 h-20 text-gray-400"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                            {services
+                                .filter((service) =>
+                                    service.name
+                                        .toLowerCase()
+                                        .includes(searchTerm.toLowerCase())
+                                )
+                                .map((service) => (
+                                    <li
+                                        key={service.id}
+                                        className="flex items-center space-x-4 py-4 px-2 cursor-pointer hover:bg-gray-200 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:px-4"
+                                        onClick={() =>
+                                            handleServiceClick(service)
+                                        }
+                                    >
+                                        {/* Service Image */}
+                                        {service.image ? (
+                                            <img
+                                                src={`${window.location.origin}/storage/${service.image}`}
+                                                alt={service.name}
+                                                className="w-20 h-20 object-cover rounded-full"
                                             />
-                                        </svg>
-                                    )}
+                                        ) : (
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                class="w-20 h-20 text-gray-400"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                                                />
+                                            </svg>
+                                        )}
 
-                                    {/* Service Details */}
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-800 text-lg">
-                                            {service.name}
-                                        </h3>
-                                        <p className="text-gray-500 text-sm">
-                                            {expandedDescriptions[service.id]
-                                                ? service.description ||
-                                                  "No description available."
-                                                : (
-                                                      service.description ||
+                                        {/* Service Details */}
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-gray-800 text-lg">
+                                                {service.name}
+                                            </h3>
+                                            <p className="text-gray-500 text-sm">
+                                                {expandedDescriptions[
+                                                    service.id
+                                                ]
+                                                    ? service.description ||
                                                       "No description available."
-                                                  ).substring(0, 50)}
-                                            {service.description &&
-                                                service.description.length >
-                                                    50 && (
-                                                    <span
-                                                        className="text-blue-500 cursor-pointer ml-1"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            toggleDescription(
+                                                    : (
+                                                          service.description ||
+                                                          "No description available."
+                                                      ).substring(0, 50)}
+                                                {service.description &&
+                                                    service.description.length >
+                                                        50 && (
+                                                        <span
+                                                            className="text-blue-500 cursor-pointer ml-1"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                toggleDescription(
+                                                                    service.id
+                                                                );
+                                                            }}
+                                                        >
+                                                            {expandedDescriptions[
                                                                 service.id
-                                                            );
-                                                        }}
-                                                    >
-                                                        {expandedDescriptions[
-                                                            service.id
-                                                        ]
-                                                            ? "Show less"
-                                                            : "Show more..."}
-                                                    </span>
-                                                )}
-                                        </p>
-                                    </div>
+                                                            ]
+                                                                ? "Show less"
+                                                                : "Show more..."}
+                                                        </span>
+                                                    )}
+                                            </p>
+                                        </div>
 
-                                    {/* Service Cost & Duration */}
-                                    <div className="text-right">
-                                        <p className="text-blue-600 font-semibold">
-                                            {service.cost
-                                                ? `₱${service.cost}`
-                                                : "Free"}{" "}
-                                        </p>
-                                        <p className="text-gray-500 text-sm">
-                                            {service.duration || "N/A"} mins
-                                        </p>
-                                    </div>
-                                </li>
-                            ))}
+                                        {/* Service Cost & Duration */}
+                                        <div className="text-right">
+                                            <p className="text-blue-600 font-semibold">
+                                                {service.cost
+                                                    ? `₱${service.cost}`
+                                                    : "Free"}{" "}
+                                            </p>
+                                            <p className="text-gray-500 text-sm">
+                                                {service.duration || "N/A"} mins
+                                            </p>
+                                        </div>
+                                    </li>
+                                ))}
                         </ul>
                     ) : (
                         <p className="text-center text-gray-500">

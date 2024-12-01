@@ -13,5 +13,10 @@ class Services extends Model
     protected $table = 'services';
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'description', 'image', 'duration', 'cost', 'location', 'category'];
+
+    public function appointments()
+{
+    return $this->hasMany(Appointment::class);
+}
 }
 

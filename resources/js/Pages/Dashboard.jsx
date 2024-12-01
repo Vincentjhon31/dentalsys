@@ -24,7 +24,7 @@ export default function Dashboard() {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-1000">
+                <h2 className="text-xl font-semibold leading-tight text-gray-1000 sm:mx-auto">
                     Dashboard
                 </h2>
             }
@@ -33,66 +33,61 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold text-start my-4 md:hidden">
                 Dashboard
             </h1>
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <span className="text-xl font-semibold leading-tight text-gray-1000">
-                                You're logged in!{" "}
-                            </span>
-                            <br />
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Officia quis nam corporis amet ea molestias
-                            optio quo consequat ur quasi nesciunt laborum,
-                            incidunt vel, recusandae minima quidem facilis
-                            quibusdam deleniti cupiditate?
-                            <br /> Hello po! elloyyy mga user na nasa baba
-                            <br />
-                            <div className="py-12 text-xl leading-tight text-gray-1000">
-                                {" "}
-                                Users:
-                                {loading ? (
-                                    <p>loading...</p>
-                                ) : (
-                                    <ul>
-                                        {data.map((item, index) => (
-                                            <li key={index}>
-                                                {item.id} - {item.name}
-                                                <br /> and the email:{" "}
-                                                {item.email}
-                                                <br /> and the time that create:{" "}
-                                                {item.created_at} <br /> <br />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
+            <div className="py-12 sm:px-6 lg:px-8">
+                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="p-6 text-gray-900">
+                        <span className="text-xl font-semibold leading-tight text-gray-1000">
+                            You're logged in!{" "}
+                        </span>
+                        <br />
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Officia quis nam corporis amet ea molestias optio
+                        quo consequat ur quasi nesciunt laborum, incidunt vel,
+                        recusandae minima quidem facilis quibusdam deleniti
+                        cupiditate?
+                        <br /> Hello po! elloyyy mga user na nasa baba
+                        <br />
+                        <div className="py-12 text-xl leading-tight text-gray-1000 sm:mx-auto">
+                            {" "}
+                            Users:
+                            {loading ? (
+                                <p className="text-center">loading...</p>
+                            ) : (
+                                <ul className="list-disc list-inside sm:list-outside sm:px-6">
+                                    {data.map((item, index) => (
+                                        <li key={index}>
+                                            {item.id} - {item.name}
+                                            <br /> and the email: {item.email}
+                                            <br /> and the time that create:{" "}
+                                            {item.created_at} <br /> <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
 
             <img
-                class="block h-10 w-auto m-auto"
+                className="block h-10 w-auto m-auto sm:mx-auto"
                 src="/logo-text.png"
                 alt="Logo"
             />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <span className="text-xl font-semibold leading-tight text-gray-1000">
-                                Welcome to our Site
-                            </span>
-                            <br />
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Officia quis nam corporis amet ea molestias
-                            optio quo consequat ur quasi nesciunt laborum,
-                            incidunt vel, recusandae minima quidem facilis
-                            quibusdam deleniti cupiditate?
-                            <br /> Hello po!
-                        </div>
+            <div className="py-12 sm:px-6 lg:px-8">
+                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="p-6 text-gray-900">
+                        <span className="text-xl font-semibold leading-tight text-gray-1000 sm:mx-auto">
+                            Welcome to our Site
+                        </span>
+                        <br />
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Officia quis nam corporis amet ea molestias optio
+                        quo consequat ur quasi nesciunt laborum, incidunt vel,
+                        recusandae minima quidem facilis quibusdam deleniti
+                        cupiditate?
+                        <br /> Hello po!
                     </div>
                 </div>
             </div>

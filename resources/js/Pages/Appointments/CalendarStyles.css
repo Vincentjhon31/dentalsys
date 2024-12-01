@@ -1,0 +1,102 @@
+.custom-calendar {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    width: 50%;
+}
+
+.custom-calendar .rbc-toolbar {
+    background-color: #374151ab;
+    color: white;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-calendar .rbc-event {
+    background-color: #4e46e586;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.custom-calendar .rbc-month-view {
+    padding: 0.5rem;
+    color: black;
+}
+
+@media screen and (max-width: 768px) {
+    .custom-calendar {
+        font-size: 12px;
+    }
+
+    .custom-calendar .rbc-month-view {
+        padding: 0;
+    }
+
+    .custom-calendar .rbc-day-bg {
+        min-width: 35px;
+        max-width: 35px;
+        height: 35px;
+    }
+}
+/* Adjusting the font size of the calendar's month header */
+.rbc-toolbar .rbc-btn-group button {
+    font-size: 14px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding for smaller buttons */
+}
+
+.rbc-toolbar .rbc-month-view {
+    font-size: 14px; /* Reduce the font size of the month text */
+}
+
+/* If you need to scale down the entire calendar's text */
+.rbc-calendar {
+    font-size: 14px; /* Adjust general font size */
+    color: aquamarine;
+}
+.rbc-header {
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px !important;
+}
+
+/* Styles for the calendar container */
+.calendar-container {
+    width: 100%;
+    max-width: 1200px; /* Limits width for larger screens */
+    margin: 0 auto; /* Center calendar horizontally */
+    padding: 20px;
+}
+
+/* Calendar custom styles */
+.custom-calendar {
+    width: 100%; /* Make the calendar take up full width of its container */
+    height: 80vh; /* Make the calendar height flexible based on viewport height */
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+    .custom-calendar {
+        height: 60vh; /* Reduce calendar height on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-calendar {
+        height: 50vh; /* Further reduce height for very small screens (mobile) */
+    }
+}
+
+/* Add this to your CalendarStyles.css or use inline styles in the component */
+@media (max-width: 768px) {
+    .calendar-mobile-hidden {
+        display: none;
+    }
+}

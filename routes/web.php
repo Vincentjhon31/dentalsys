@@ -8,6 +8,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShareController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\PatientController;
+
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/', function () {
@@ -55,6 +58,26 @@ Route::post('/services/{id}/update', [ServicesController::class, 'update'])->nam
 
 // web.php
 Route::delete('/services/{service}', [ServicesController::class, 'destroy'])->name('services.destroy');
+
+
+Route::resource('appointments', AppointmentController::class)
+    ->middleware(['auth', 'verified']);
+
+Route::get('/api/services', [ServicesController::class, 'indexApi'])->name('api.services.index');
+Route::post('/appointments/store', [AppointmentController::class, 'store'])->name('appointments.store');
+
+Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');
+Route::resource('patients', PatientController::class);
+Route::resource('patients', PatientController::class)->middleware(['auth', 'verified']);
+
+Route::get('/appointments/select', [AppointmentController::class, 'select'])->name('appointments.select');
+Route::get('/api/patients', [PatientController::class, 'indexApi'])->name('api.patients.index');
+
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+
+Route::get('/appointments/{id}', [AppointmentController::class, 'show'])->name('appointments.show');
 
 
 require __DIR__.'/auth.php';
